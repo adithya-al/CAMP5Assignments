@@ -1,0 +1,108 @@
+﻿@*
+  Show List of Patients
+*@
+
+@model IEnumerable<Patients>
+@{
+    ViewData["Title"] = "List of Patients";
+
+}
+
+<h2>List of Patients</h2>
+<!-- Add Patient-->
+<a asp-controller="Patient" asp-action="Create" class="btn btn-Outline">Add Patient</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisterNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientName)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberId)
+            </th>
+            <th>Membership Description</th>
+            <th>Insurance Amount</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegisterNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberId)
+                </td>
+                <td>
+                    @item.Membership.MemberDescrip
+                </td>
+                <td>
+                    @item.Membership.InsureAmt
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Membership.MemberDescrip)
+                </td>
+
+                <td>
+                    <a asp-controller="Patient" asp-action="Edit"
+                       asp-route-ProfessorId="@item.PatientId"
+                       class="btn btn-secondary">Edit</a>
+
+
+                    <a asp-controller="Patient " asp-action="Delete"
+                       asp-route-id="@item.PatientId"
+                       class="btn btn-danger">Remove</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+   
+
+
+
+               

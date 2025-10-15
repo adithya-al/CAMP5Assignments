@@ -1,0 +1,118 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Patients
+@{
+}
+<h4>Edit And Update Patient </h4>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <form id="editPatientForm" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!--Patientid-->
+            <div class="form-group">
+                <label asp-for="PatientId" class="control-label">Patient Id :</label>
+                <input asp-for="PatientId" class="form-control" id="PatientId" readonly  />
+            </div>
+            <!--Patient Register Number-->
+            <div class="form-group">
+                <label asp-for="RegisterNo" class="control-label">
+                    Register No<span class="text-danger"></span>
+                </label>
+                <input asp-for="RegisterNo" class="form-control" id="regno" autocomplete="off" />
+                <span asp-validation-for="RegisterNo" class="text-danger"></span>
+            </div>
+            <!--Patient Name -->
+            <div class="form-group">
+                <label asp-for="PatientName" class="control-label">
+                    Patient Name<span class="text-danger"></span>
+                </label>
+                <input asp-for="PatientName" class="form-control" id="name" autocomplete="off" />
+                <span asp-validation-for="PatientName" class="text-danger"></span>
+            </div>
+
+            <!--DOB DATE-->
+            <div class="form-group">
+                <label asp-for="DOB" class="control-label">
+                    Date of birth<span class="text-danger">*</span>
+                </label>
+                <input asp-for="DOB" class="form-control" id="dob" type="date" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+            <!--Gender-->
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label bold-label"></label>
+                <div>
+                    <input type="radio" asp-for="Gender" id="genderMale"
+                           value="Male" />
+                    <label for="genderMale">Male</label>
+                </div>
+                <div>
+                    <input type="radio" asp-for="Gender" name="Gender" id="genderFemale"
+                           value="Female" />
+                    <label for="genderFemale">Female</label>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <!--Address-->
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">
+                    Address<span class="text-danger"></span>
+                </label>
+                <input asp-for="Address" class="form-control" id="address" autocomplete="off" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <!--Phone Number-->
+            <div class="form-group">
+                <label asp-for="PhoneNo" class="control-label">
+                    Phone No<span class="text-danger"></span>
+                </label>
+                <input asp-for="PhoneNo" class="form-control" id="phone" autocomplete="off" />
+                <span asp-validation-for="PhoneNo" class="text-danger"></span>
+            </div>
+
+            <!--Membership Id hidden-->
+            <div class="form-group">
+                <input asp-for="MemberId" type="hidden" id="selectedMemberId" />
+            </div>
+            <!--Membership Name dropdown-->
+            <div class="form-group">
+                <label asp-for="MemberId" class="control-label bold-label">
+                    Membership
+                    <span class="text-danger">*</span>
+                </label>
+                <select asp-for="MemberId" id="membershipList" class="form-control">
+                    <option value="">--Select Membership</option>
+                    @foreach (var membership in ViewBag.Memberships)
+                    {
+                        <option value="@membership.MemberId">
+                            @membership.MemberDescrip - $@membership.InsureAmt
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+
+            <!--submit-->
+            <div class="form-group">
+                <input type="submit" value="Update" id="btnSave" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        //DepartmentId --departmentList --Change
+        document.getElementById('membershipList').addEventListener('change',function(){
+            var selectMemberdescrip = this.value;
+
+            //Assign to hidden field
+            document.getElementById('selectedMemberId').value = selectMemberdescrip;
+        });
+    </script>
+}
