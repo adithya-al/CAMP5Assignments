@@ -1,7 +1,7 @@
-using ProfessorList.Repository;
-using ProfessorList.Service;
+using MVCAssignmentThree.Repository;
+using MVCAssignmentThree.Service;
 
-namespace ProfessorList
+namespace MVCAssignmentThree
 {
     public class Program
     {
@@ -11,12 +11,17 @@ namespace ProfessorList
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            //Add ConnectionString
+            //register all custom service like connectionString,repository,services
+
+            //1 - add connection string
             var connectionString = builder.Configuration.GetConnectionString("MVCConnectionString");
 
-            //2 - Register Repository and Service as Middleware
-            builder.Services.AddScoped<IProfessorRepository,ProfessorRepositoryImpl>();
-            builder.Services.AddScoped<IProfessorService, ProfessorServiceImpl>();
+            // Register DI for your repositories and services
+            builder.Services.AddScoped<IUserRepository, UserRepositoryImpl>();
+            builder.Services.AddScoped<IUserService, UserServiceImpl>();
+
+            // Add configuration access (to read connection strings)
+            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
             var app = builder.Build();
 
@@ -24,7 +29,6 @@ namespace ProfessorList
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -32,12 +36,14 @@ namespace ProfessorList
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseAuthentication();
+
             app.UseAuthorization();
 
+            // Default route
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Professor}/{action=List}/{id?}");
+                pattern: "{controller=User}/{action=Login}/{id?}"
+            );
 
             app.Run();
         }
